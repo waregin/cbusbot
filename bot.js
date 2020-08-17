@@ -59,8 +59,8 @@ client.on('message', msg => {
   }
 });
 
-// every five hours, put image from inspirePics folder into support channel
-cron.schedule("0 */5 * * *", function() {
+// every morning at 8, put image from inspirePics folder into support channel
+cron.schedule("0 8 * * *", function() {
   var chosen = inspirationalImages[Math.floor(Math.random() * inspirationalImages.length)];
   client.channels.fetch('630807691291525131').then(channel => channel.send('', {files: ['inspirePics/' + chosen]}));
 });
