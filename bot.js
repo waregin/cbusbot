@@ -59,7 +59,6 @@ client.on('message', msg => {
   }
 });
 
-// testing git commit
 // feature removed by request
 // every morning at 8, put image from inspirePics folder into support channel
 //cron.schedule("0 8 * * *", function() {
