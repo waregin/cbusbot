@@ -9,6 +9,8 @@ const schedule = require('node-schedule');
 var inspirationalImages = fs.readdirSync('./inspirePics');
 var twerks = fs.readdirSync('./twerking');
 
+//client.on('debug', console.log);
+
 client.login(process.env.DISCORD_TOKEN);
 
 client.on('ready', () => {
@@ -20,12 +22,12 @@ client.on('ready', () => {
     var info = line.split(' ');
     var birthdayMember = client.guilds.cache.get('555243907534028830').members.cache.get(info[0])
     var job = schedule.scheduleJob({month: info[1], date: info[2]}, function(){
-      birthdayMember.addRole(birthdayRole);
+      birthdayMember.roles.add(birthdayRole);
       client.channels.fetch('681914541029982268').then(channel => channel.send('<@' + birthdayMember + '> HAPPY BIRTHDAY!', {files: ["birthday.jpeg"]}));
     });
     // removes role next day
     var revertJob = schedule.scheduleJob({month: info[1], date: parseInt(info[2]) + 1}, function(){
-      birthdayMember.removeRole(birthdayRole);
+      birthdayMember.roles.remove(birthdayRole);
     });
   });
 });
@@ -84,4 +86,3 @@ client.on('message', msg => {
 //  var chosen = inspirationalImages[Math.floor(Math.random() * inspirationalImages.length)];
 //  client.channels.fetch('630807691291525131').then(channel => channel.send('', {files: ['inspirePics/' + chosen]}));
 //});
-
