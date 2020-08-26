@@ -9,6 +9,8 @@ const schedule = require('node-schedule');
 var inspirationalImages = fs.readdirSync('./inspirePics');
 var twerks = fs.readdirSync('./twerking');
 
+client.login(process.env.DISCORD_TOKEN);
+
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 
@@ -83,4 +85,3 @@ client.on('message', msg => {
 //  client.channels.fetch('630807691291525131').then(channel => channel.send('', {files: ['inspirePics/' + chosen]}));
 //});
 
-client.login(process.env.DISCORD_TOKEN);
