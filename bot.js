@@ -2,13 +2,30 @@ require('dotenv').config();
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const cron = require("node-cron");
+const fs = require('fs');
+const lineReader = require('line-reader');
+const schedule = require('node-schedule');
 
-var fs = require('fs');
 var inspirationalImages = fs.readdirSync('./inspirePics');
 var twerks = fs.readdirSync('./twerking');
 
 client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
+  console.log(`Logged in as ${client.user.tag}!`);
+
+  // assigns birthday role and sends birthday greeting in general based on dates in file
+  var birthdayRole = client.guilds.cache.get('555243907534028830').roles.cache.get('604442101425504261');
+  lineReader.eachLine('birthdates.txt', function(line) {
+    var info = line.split(' ');
+    var birthdayMember = client.guilds.cache.get('555243907534028830').members.cache.get(info[0])
+    var job = schedule.scheduleJob({month: info[1], date: info[2]}, function(){
+      birthdayMember.addRole(birthdayRole);
+      client.channels.fetch('681914541029982268').then(channel => channel.send('<@' + birthdayMember + '> HAPPY BIRTHDAY!', {files: ["birthday.jpeg"]}));
+    });
+    // removes role next day
+    var revertJob = schedule.scheduleJob({month: info[1], date: parseInt(info[2]) + 1}, function(){
+      birthdayMember.removeRole(birthdayRole);
+    });
+  });
 });
 
 client.on('message', msg => {
