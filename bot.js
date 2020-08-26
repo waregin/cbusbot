@@ -26,7 +26,7 @@ client.on('ready', () => {
       client.channels.fetch('681914541029982268').then(channel => channel.send('<@' + birthdayMember + '> HAPPY BIRTHDAY!', {files: ["birthday.jpeg"]}));
     });
     // removes role next day
-    var revertJob = schedule.scheduleJob({month: info[1], date: parseInt(info[2]) + 1}, function(){
+    var revertJob = schedule.scheduleJob({month: info[1], date: parseInt(info[2]) + 1, hour: 0, minute: 0}, function(){
       birthdayMember.roles.remove(birthdayRole);
     });
   });
