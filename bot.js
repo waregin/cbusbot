@@ -21,7 +21,7 @@ client.on('ready', () => {
   lineReader.eachLine('birthdates.txt', function(line) {
     var info = line.split(' ');
     var birthdayMember = client.guilds.cache.get('555243907534028830').members.cache.get(info[0])
-    var job = schedule.scheduleJob({month: info[1], date: info[2]}, function(){
+    var job = schedule.scheduleJob({month: info[1], date: info[2], hour: 0, minute: 0}, function(){
       birthdayMember.roles.add(birthdayRole);
       client.channels.fetch('681914541029982268').then(channel => channel.send('<@' + birthdayMember + '> HAPPY BIRTHDAY!', {files: ["birthday.jpeg"]}));
     });
