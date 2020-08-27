@@ -14,7 +14,6 @@ var twerks = fs.readdirSync('./twerking');
 client.login(process.env.DISCORD_TOKEN);
 
 client.on('ready', () => {
-  console.log(new Date(Date.now()));
   console.log(`Logged in as ${client.user.tag}!`);
 
   // assigns birthday role and sends birthday greeting in general based on dates in file
