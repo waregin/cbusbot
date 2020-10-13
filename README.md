@@ -1,4 +1,5 @@
-# Reference Steps for new project:
+### Reference Steps for new project:
+```
 sudo apt-get install curl python-software-properties
 curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
 sudo apt-get install -y nodejs
@@ -15,8 +16,10 @@ make file called "bot.js"
 
 node version expected: 12.18.3
 npm version expected: 6.14.6
+```
 
 # cbusbot
+```
 run command in linux terminal:
 node bot.js
 
@@ -38,3 +41,4 @@ pm2 start bot.js
 
 // to see logs
 pm2 logs
+```
