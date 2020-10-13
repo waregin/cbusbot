@@ -1,4 +1,4 @@
-Reference Steps for new project:
+# Reference Steps for new project:
 sudo apt-get install curl python-software-properties
 curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
 sudo apt-get install -y nodejs
