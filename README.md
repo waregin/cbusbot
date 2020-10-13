@@ -28,7 +28,7 @@ git clone https://github.com/warebec/cbusbot.git
 
 // commit local changes
 git add .
-git commit -m "added birthday function for hot dog" -a
+git commit -am "added birthday function for hot dog"
 git push
 
 // on bot server, pull changes, restart bot
