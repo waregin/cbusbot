@@ -40,7 +40,7 @@ client.on('message', msg => {
     msg.reply('pong');
   }
   // replies to mentions
-  if (msg.mentions.has(client.user)) {
+  if (!msg.mentions.everyone && msg.mentions.has(client.user)) {
     if (new RegExp("\\binspire\\b").test(msg.content.toLowerCase())) {
       // ... containing "inspire" with image from inspire folder
       var chosen = inspirationalImages[Math.floor(Math.random() * inspirationalImages.length)];
@@ -56,14 +56,14 @@ client.on('message', msg => {
   // replies to messages containing "vore" with "YOU RUINED IT!" and puts the vore image in shitposting
   if (new RegExp("\\bvore\\b").test(msg.content.toLowerCase())) {
     msg.reply('YOU RUINED IT!');
-    client.channels.fetch('555243907534028834').then(channel => channel.send('<@' + msg.member + '> reset the count', {files: ["vore.png"]}));
+    client.channels.fetch('766529200113975327').then(channel => channel.send('<@' + msg.member + '> reset the count', {files: ["vore.png"]}));
   }
   // replies to "she bite" with "SHE NO BITE!!"
   if (msg.content.toLowerCase() === 'she bite' || msg.content.toLowerCase() === 'cosette bite' || msg.content.toLowerCase() === 'cossete bite') {
     msg.reply('SHE NO BITE!!');
   }
   // replies to mentions of food channel with "Every channel is food channel"
-  if (msg.mentions.has('573026220833243137')) {
+  if (!msg.mentions.everyone && msg.mentions.has('573026220833243137')) {
     var picking = new Date().getTime();
     if (picking % 2 == 1) {
       msg.channel.send('', {files: ["food.png"]});
