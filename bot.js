@@ -82,6 +82,11 @@ client.on('message', msg => {
   }
 });
 
+// change server name to "Columbugs" on May 1st
+cron.schedule("0 0 1 5 *", function() {
+    client.guilds.fetch('555243907534028830').then(guild => guild.setName('Columbugs'))
+});
+
 // feature removed by request
 // every morning at 8, put image from inspirePics folder into support channel
 //cron.schedule("0 8 * * *", function() {
