@@ -7,19 +7,19 @@ const lineReader = require('line-reader');
 const schedule = require('node-schedule');
 const fetch = require('node-fetch');
 
-GifSearch.searchForGif = function(searchTerm, cb) {
+var inspirationalImages = fs.readdirSync('./inspirePics');
+var twerks = fs.readdirSync('./twerking');
+var chosenGif = 'https://tenor.com/voTk.gif';
+
+function searchForGif(searchTerm) {
 //    var url = 'https://g.tenor.com/v1/search?q=' + searchTerm + '&key=' + process.env.TENORKEY + '&limit=8';
 //    var response = await fetch(url);
 //    var json = await response.json();
     var json = "https://g.tenor.com/v1/search?q=${searchTerm}&key=${process.env.TENORKEY}&limit=8";
     var chosen = Math.floor(Math.random() * json.results.length);
-    var result = json.results[chosen].url;
-    console.log(result);
-    cb(result);
+    chosenGif = json.results[chosen].url;
+    console.log(chosenGif);
 }
-
-var inspirationalImages = fs.readdirSync('./inspirePics');
-var twerks = fs.readdirSync('./twerking');
 
 //client.on('debug', console.log);
 
@@ -91,12 +91,8 @@ client.on('message', msg => {
   }
   // replies to messages from elle (or me) containing "dance" with twerking gif
   if (msg.member != null && (msg.member.id === '533716168062664742' || msg.member.id === '325030773054767133') && new RegExp("\\bdance\\b").test(msg.content.toLowerCase())) {
-    var gifSearch = new GifSearch();
-    gifSearch.searchForGif("twerking", function(gifResult) {
-        console.log('received: ' + gifResult);
-        msg.channel.send(gifResult);
-    });
-//    msg.channel.send(gifSearch("twerking"));
+    searchForGif("twerking");
+    msg.channel.send(chosenGif);
 //    var chosen = twerks[Math.floor(Math.random() * twerks.length)];
 //    msg.channel.send('', {files: ['twerking/' + chosen]});
   }
