@@ -7,6 +7,17 @@ const lineReader = require('line-reader');
 const schedule = require('node-schedule');
 const fetch = require('node-fetch');
 
+GifSearch.searchForGif = function(searchTerm, cb) {
+//    var url = 'https://g.tenor.com/v1/search?q=' + searchTerm + '&key=' + process.env.TENORKEY + '&limit=8';
+//    var response = await fetch(url);
+//    var json = await response.json();
+    var json = "https://g.tenor.com/v1/search?q=${searchTerm}&key=${process.env.TENORKEY}&limit=8";
+    var chosen = Math.floor(Math.random() * json.results.length);
+    var result = json.results[chosen].url;
+    console.log(result);
+    cb(result);
+}
+
 var inspirationalImages = fs.readdirSync('./inspirePics');
 var twerks = fs.readdirSync('./twerking');
 
@@ -107,14 +118,3 @@ cron.schedule("0 0 1 5 *", function() {
 //  var chosen = inspirationalImages[Math.floor(Math.random() * inspirationalImages.length)];
 //  client.channels.fetch('630807691291525131').then(channel => channel.send('', {files: ['inspirePics/' + chosen]}));
 //});
-
-GifSearch.searchForGif = function(searchTerm, cb) {
-//    var url = 'https://g.tenor.com/v1/search?q=' + searchTerm + '&key=' + process.env.TENORKEY + '&limit=8';
-//    var response = await fetch(url);
-//    var json = await response.json();
-    var json = "https://g.tenor.com/v1/search?q=${searchTerm}&key=${process.env.TENORKEY}&limit=8";
-    var chosen = Math.floor(Math.random() * json.results.length);
-    var result = json.results[chosen].url;
-    console.log(result);
-    cb(result);
-}
