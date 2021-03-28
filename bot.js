@@ -108,5 +108,5 @@ async function gifSearch(searchTerm) {
     var response = await fetch(url);
     var json = await response.json();
     var chosen = Math.floor(Math.random() * json.results.length);
-    return json.results.[chosen].url;
+    return json.results[chosen].url;
 }
