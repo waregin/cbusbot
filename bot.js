@@ -93,6 +93,11 @@ client.on('message', msg => {
     searchForGif("twerking");
     msg.channel.send(chosenGif);
   }
+  // replies to messages from kiwi (or me) containing "I would die for " with euphie's meme
+    if (msg.member != null && (msg.member.id === '155457021150232576' || msg.member.id === '325030773054767133')
+        && new RegExp("\\bI would die for \\b").test(msg.content.toLowerCase())) {
+      msg.channel.send('', {files: ["kiwi.png"]});
+    }
 });
 
 // post siren gif every Wednesday at noon
