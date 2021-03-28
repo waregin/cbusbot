@@ -12,7 +12,7 @@ var twerks = fs.readdirSync('./twerking');
 var chosenGif = 'https://tenor.com/voTk.gif';
 
 async function searchForGif(searchTerm) {
-    var url = 'https://g.tenor.com/v1/search?q=' + searchTerm + '&key=' + process.env.TENORKEY + '&limit=8';
+    var url = 'https://g.tenor.com/v1/search?q=' + searchTerm + '&key=' + process.env.TENORKEY + '&limit=18';
     var response = await fetch(url);
     var json = await response.json();
     var chosen = Math.floor(Math.random() * json.results.length);
