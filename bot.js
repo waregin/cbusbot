@@ -80,23 +80,15 @@ client.on('message', msg => {
   }
   // replies to messages from elle (or me) containing "dance" with twerking gif
   if (msg.member != null && (msg.member.id === '533716168062664742' || msg.member.id === '325030773054767133') && new RegExp("\\bdance\\b").test(msg.content.toLowerCase())) {
-    var url = 'https://g.tenor.com/v1/search?q=twerk&key=${process.env.TENORKEY}&limit=8';
-    var response = await fetch(url);
-    var json = await response.json();
-    var chosen = Math.floor(Math.random() * json.results.length);
-    msg.channel.send(json.results.[chosen].url);
+    msg.channel.send(gifSearch("twerking"));
 //    var chosen = twerks[Math.floor(Math.random() * twerks.length)];
 //    msg.channel.send('', {files: ['twerking/' + chosen]});
   }
 });
 
 // post siren gif every Wednesday at noon
-cron.schedule("0 0 1 5 *", function() {
-    var url = 'https://g.tenor.com/v1/search?q=woo&key=${process.env.TENORKEY}&limit=8';
-    var response = await fetch(url);
-    var json = await response.json();
-    var chosen = Math.floor(Math.random() * json.results.length);
-    client.channels.fetch('766529200113975327').then(channel => channel.send(json.results.[chosen].url));
+cron.schedule("0 0 12 ? * WED *", function() {
+    client.channels.fetch('766529200113975327').then(channel => channel.send(gifSearch("woo")));
 });
 
 // change server name to "Columbugs" on May 1st
@@ -110,3 +102,11 @@ cron.schedule("0 0 1 5 *", function() {
 //  var chosen = inspirationalImages[Math.floor(Math.random() * inspirationalImages.length)];
 //  client.channels.fetch('630807691291525131').then(channel => channel.send('', {files: ['inspirePics/' + chosen]}));
 //});
+
+async function gifSearch(searchTerm) {
+    var url = 'https://g.tenor.com/v1/search?q=${searchTerm}&key=${process.env.TENORKEY}&limit=8';
+    var response = await fetch(url);
+    var json = await response.json();
+    var chosen = Math.floor(Math.random() * json.results.length);
+    return json.results.[chosen].url;
+}
