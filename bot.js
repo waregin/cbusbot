@@ -87,7 +87,7 @@ client.on('message', msg => {
 });
 
 // post siren gif every Wednesday at noon
-cron.schedule("0 0 12 ? * WED *", function() {
+cron.schedule("0 0 12 0 * WED *", function() {
     client.channels.fetch('766529200113975327').then(channel => channel.send(gifSearch("woo")));
 });
 
