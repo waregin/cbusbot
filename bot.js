@@ -15,7 +15,6 @@ async function searchForGif(searchTerm) {
     var url = 'https://g.tenor.com/v1/search?q=' + searchTerm + '&key=' + process.env.TENORKEY + '&limit=8';
     var response = await fetch(url);
     var json = await response.json();
-//    var json = "https://g.tenor.com/v1/search?q=${searchTerm}&key=${process.env.TENORKEY}&limit=8";
     var chosen = Math.floor(Math.random() * json.results.length);
     chosenGif = json.results[chosen].url;
     console.log(chosenGif);
@@ -93,14 +92,13 @@ client.on('message', msg => {
   if (msg.member != null && (msg.member.id === '533716168062664742' || msg.member.id === '325030773054767133') && new RegExp("\\bdance\\b").test(msg.content.toLowerCase())) {
     searchForGif("twerking");
     msg.channel.send(chosenGif);
-//    var chosen = twerks[Math.floor(Math.random() * twerks.length)];
-//    msg.channel.send('', {files: ['twerking/' + chosen]});
   }
 });
 
 // post siren gif every Wednesday at noon
 cron.schedule("0 0 12 * * WED *", function() {
-    client.channels.fetch('766529200113975327').then(channel => channel.send(gifSearch("woo")));
+    searchForGif("woo");
+    client.channels.fetch('766529200113975327').then(channel => channel.send(chosenGif));
 });
 
 // change server name to "Columbugs" on May 1st
