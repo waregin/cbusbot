@@ -5,6 +5,7 @@ const cron = require("node-cron");
 const fs = require('fs');
 const lineReader = require('line-reader');
 const schedule = require('node-schedule');
+const fetch = require('node-fetch');
 
 var inspirationalImages = fs.readdirSync('./inspirePics');
 var twerks = fs.readdirSync('./twerking');
@@ -59,7 +60,9 @@ client.on('message', msg => {
     client.channels.fetch('766529200113975327').then(channel => channel.send('<@' + msg.member + '> reset the count', {files: ["vore.png"]}));
   }
   // replies to "she bite" with "SHE NO BITE!!"
-  if (msg.content.toLowerCase() === 'she bite' || msg.content.toLowerCase() === 'cosette bite' || msg.content.toLowerCase() === 'cossete bite') {
+  if (new RegExp("\\bshe bite\\b").test(msg.content.toLowerCase())
+       || new RegExp("\\bcosette bite\\b").test(msg.content.toLowerCase())
+       || new RegExp("\\bcossete bite\\b").test(msg.content.toLowerCase())) {
     msg.reply('SHE NO BITE!!');
   }
   // replies to mentions of food channel with "Every channel is food channel"
@@ -77,14 +80,28 @@ client.on('message', msg => {
   }
   // replies to messages from elle (or me) containing "dance" with twerking gif
   if (msg.member != null && (msg.member.id === '533716168062664742' || msg.member.id === '325030773054767133') && new RegExp("\\bdance\\b").test(msg.content.toLowerCase())) {
-    var chosen = twerks[Math.floor(Math.random() * twerks.length)];
-    msg.channel.send('', {files: ['twerking/' + chosen]});
+    var url = 'https://g.tenor.com/v1/search?q=twerk&key=${process.env.TENORKEY}&limit=8';
+    var response = await fetch(url);
+    var json = await response.json();
+    var chosen = Math.floor(Math.random() * json.results.length);
+    msg.channel.send(json.results.[chosen].url);
+//    var chosen = twerks[Math.floor(Math.random() * twerks.length)];
+//    msg.channel.send('', {files: ['twerking/' + chosen]});
   }
+});
+
+// post siren gif every Wednesday at noon
+cron.schedule("0 0 1 5 *", function() {
+    var url = 'https://g.tenor.com/v1/search?q=woo&key=${process.env.TENORKEY}&limit=8';
+    var response = await fetch(url);
+    var json = await response.json();
+    var chosen = Math.floor(Math.random() * json.results.length);
+    client.channels.fetch('766529200113975327').then(channel => channel.send(json.results.[chosen].url));
 });
 
 // change server name to "Columbugs" on May 1st
 cron.schedule("0 0 1 5 *", function() {
-    client.guilds.fetch('555243907534028830').then(guild => guild.setName('Columbugs'))
+    client.guilds.fetch('555243907534028830').then(guild => guild.setName('Columbugs'));
 });
 
 // feature removed by request
