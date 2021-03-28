@@ -80,7 +80,12 @@ client.on('message', msg => {
   }
   // replies to messages from elle (or me) containing "dance" with twerking gif
   if (msg.member != null && (msg.member.id === '533716168062664742' || msg.member.id === '325030773054767133') && new RegExp("\\bdance\\b").test(msg.content.toLowerCase())) {
-    msg.channel.send(gifSearch("twerking"));
+    var gifSearch = new GifSearch();
+    gifSearch.searchForGif("twerking", function(gifResult) {
+        console.log('received: ' + gifResult);
+        msg.channel.send(gifResult);
+    });
+//    msg.channel.send(gifSearch("twerking"));
 //    var chosen = twerks[Math.floor(Math.random() * twerks.length)];
 //    msg.channel.send('', {files: ['twerking/' + chosen]});
   }
@@ -103,13 +108,13 @@ cron.schedule("0 0 1 5 *", function() {
 //  client.channels.fetch('630807691291525131').then(channel => channel.send('', {files: ['inspirePics/' + chosen]}));
 //});
 
-async function gifSearch(searchTerm) {
-    var url = 'https://g.tenor.com/v1/search?q=' + searchTerm + '&key=' + process.env.TENORKEY + '&limit=8';
-    var response = await fetch(url);
-    var json = await response.json();
-//    var json = "https://g.tenor.com/v1/search?q=${searchTerm}&key=${process.env.TENORKEY}&limit=8";
+GifSearch.searchForGif = function(searchTerm, cb) {
+//    var url = 'https://g.tenor.com/v1/search?q=' + searchTerm + '&key=' + process.env.TENORKEY + '&limit=8';
+//    var response = await fetch(url);
+//    var json = await response.json();
+    var json = "https://g.tenor.com/v1/search?q=${searchTerm}&key=${process.env.TENORKEY}&limit=8";
     var chosen = Math.floor(Math.random() * json.results.length);
     var result = json.results[chosen].url;
     console.log(result);
-    return result;
+    cb(result);
 }
