@@ -109,5 +109,7 @@ async function gifSearch(searchTerm) {
     var json = await response.json();
 //    var json = "https://g.tenor.com/v1/search?q=${searchTerm}&key=${process.env.TENORKEY}&limit=8";
     var chosen = Math.floor(Math.random() * json.results.length);
+    console.log(json.results[chosen]);
+    console.log(json.results[chosen].url);
     return json.results[chosen].url;
 }
