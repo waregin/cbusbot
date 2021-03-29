@@ -101,7 +101,7 @@ client.on('message', msg => {
 
 // post siren gif every Wednesday at noon
 cron.schedule("0 12 * * WED", function() {
-    client.channels.fetch('766529200113975327').then(channel => searchForGif("woooo", channel););
+    client.channels.fetch('766529200113975327').then(channel => searchForGif("woooo", channel));
 });
 
 // change server name to "Columbugs" on May 1st
