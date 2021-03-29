@@ -9,7 +9,7 @@ const fetch = require('node-fetch');
 
 var inspirationalImages = fs.readdirSync('./inspirePics');
 var twerks = fs.readdirSync('./twerking');
-var chosenGif = 'https://tenor.com/voTk.gif';
+var chosenGif = 'https://tenor.com/Jy5m.gif';
 
 async function searchForGif(searchTerm) {
     var url = 'https://g.tenor.com/v1/search?q=' + searchTerm + '&key=' + process.env.TENORKEY + '&limit=18';
@@ -102,8 +102,8 @@ client.on('message', msg => {
 });
 
 // post siren gif every Wednesday at noon
-cron.schedule("0 0 12 * * WED *", function() {
-    searchForGif("woo");
+cron.schedule("0 12 * * WED", function() {
+    searchForGif("woooo");
     client.channels.fetch('766529200113975327').then(channel => channel.send(chosenGif));
 });
 
