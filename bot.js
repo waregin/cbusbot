@@ -95,7 +95,7 @@ client.on('message', msg => {
   }
   // replies to messages from kiwi (or me) containing "I would die for " with euphie's meme
     if (msg.member != null && (msg.member.id === '155457021150232576' || msg.member.id === '325030773054767133')
-        && new RegExp("\\bI would die for\\b").test(msg.content.toLowerCase())) {
+        && new RegExp("\\bi would die for\\b").test(msg.content.toLowerCase())) {
       console.log("Inside die for function");
       msg.channel.send('', {files: ["kiwi.png"]});
     }
