@@ -88,7 +88,10 @@ client.on('message', msg => {
     msg.channel.send('', {files: ["compiling.png"]});
   }
   // replies to messages from elle (or me) containing "dance" with twerking gif
-  if (msg.member != null && (msg.member.id === '533716168062664742' || msg.member.id === '325030773054767133') && new RegExp("\\bdance\\b").test(msg.content.toLowerCase())) {
+  // admin role id: 718201180815097896 birthday role id: 693811236218994788
+  if (new RegExp("\\bdance\\b").test(msg.content.toLowerCase()) && msg.member != null && (msg.member.id === '533716168062664742'
+        || msg.member.id === '325030773054767133' || msg.member.roles.cache.get('718201180815097896') != null
+        || msg.member.roles.cache.get('693811236218994788') != null)) {
     searchForGif("twerking", msg.channel);
   }
   // replies to messages from kiwi (or me) containing "I would die for " with euphie's meme
