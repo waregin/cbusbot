@@ -23,26 +23,27 @@ async function searchForGif(searchTerm, chan) {
 
 client.login(process.env.DISCORD_TOKEN);
 
-client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
-
-  // assigns birthday role and sends birthday greeting in general based on dates in file
-  var birthdayRole = client.guilds.cache.get('555243907534028830').roles.cache.get('604442101425504261');
-  lineReader.eachLine('birthdates.txt', function(line) {
-    var info = line.split(' ');
-    var birthdayMember = client.guilds.cache.get('555243907534028830').members.cache.get(info[0])
-    var job = schedule.scheduleJob({month: info[1], date: info[2], hour: 0, minute: 0}, function(){
-      birthdayMember.roles.add(birthdayRole);
-      client.channels.fetch('681914541029982268').then(channel => channel.send('<@' + birthdayMember + '> HAPPY BIRTHDAY!', {files: ["birthday.jpeg"]}));
-    });
-    //console.log(job.nextInvocation());
-    // removes role next day
-    var revertJob = schedule.scheduleJob({month: info[1], date: parseInt(info[2]) + 1, hour: 0, minute: 0}, function(){
-      birthdayMember.roles.remove(birthdayRole);
-    });
-    //console.log(revertJob.nextInvocation());
-  });
-});
+// commenting out birthday role feature for now, to be improved
+//client.on('ready', () => {
+//  console.log(`Logged in as ${client.user.tag}!`);
+//
+//  // assigns birthday role and sends birthday greeting in general based on dates in file
+//  var birthdayRole = client.guilds.cache.get('555243907534028830').roles.cache.get('604442101425504261');
+//  lineReader.eachLine('birthdates.txt', function(line) {
+//    var info = line.split(' ');
+//    var birthdayMember = client.guilds.cache.get('555243907534028830').members.cache.get(info[0])
+//    var job = schedule.scheduleJob({month: info[1], date: info[2], hour: 0, minute: 0}, function(){
+//      birthdayMember.roles.add(birthdayRole);
+//      client.channels.fetch('681914541029982268').then(channel => channel.send('<@' + birthdayMember + '> HAPPY BIRTHDAY!', {files: ["birthday.jpeg"]}));
+//    });
+//    //console.log(job.nextInvocation());
+//    // removes role next day
+//    var revertJob = schedule.scheduleJob({month: info[1], date: parseInt(info[2]) + 1, hour: 0, minute: 0}, function(){
+//      birthdayMember.roles.remove(birthdayRole);
+//    });
+//    //console.log(revertJob.nextInvocation());
+//  });
+//});
 
 client.on('message', msg => {
   // replies to "ping" with "pong"
@@ -63,7 +64,7 @@ client.on('message', msg => {
       msg.reply('Greetings fleshbags!');
     }
   }
-  // replies to messages containing "vore" with "YOU RUINED IT!" and puts the vore image in shitposting
+  // replies to messages containing "vore" with "YOU RUINED IT!" and puts the vore image in general
   if (new RegExp("\\bvore\\b").test(msg.content.toLowerCase())) {
     msg.reply('YOU RUINED IT!');
     client.channels.fetch('766529200113975327').then(channel => channel.send('<@' + msg.member + '> reset the count', {files: ["vore.png"]}));
@@ -104,7 +105,9 @@ client.on('message', msg => {
 
 // post siren gif every Wednesday at noon
 cron.schedule("0 12 * * WED", function() {
-    client.channels.fetch('766529200113975327').then(channel => searchForGif("woooo", channel));
+    var searchWords = ["woooo", "siren", "awoo"];
+    var chosen = Math.floor(Math.random() * searchWords.length);
+    client.channels.fetch('766529200113975327').then(channel => searchForGif(searchWords[chosen], channel));
 });
 
 // change server name to "Columbugs" on May 1st
