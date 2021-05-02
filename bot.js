@@ -23,11 +23,11 @@ async function searchForGif(searchTerm, chan) {
 
 client.login(process.env.DISCORD_TOKEN);
 
-// commenting out birthday role feature for now, to be improved
-//client.on('ready', () => {
-//  console.log(`Logged in as ${client.user.tag}!`);
-//
-//  // assigns birthday role and sends birthday greeting in general based on dates in file
+client.on('ready', () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+
+    // commenting out birthday role feature for now, to be improved
+    // assigns birthday role and sends birthday greeting in general based on dates in file
 //  var birthdayRole = client.guilds.cache.get('555243907534028830').roles.cache.get('604442101425504261');
 //  lineReader.eachLine('birthdates.txt', function(line) {
 //    var info = line.split(' ');
@@ -43,7 +43,7 @@ client.login(process.env.DISCORD_TOKEN);
 //    });
 //    //console.log(revertJob.nextInvocation());
 //  });
-//});
+});
 
 client.on('message', msg => {
   // replies to "ping" with "pong"
