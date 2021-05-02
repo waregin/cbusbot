@@ -110,9 +110,9 @@ cron.schedule("0 12 * * WED", function() {
     client.channels.fetch('766529200113975327').then(channel => searchForGif(searchWords[chosen], channel));
 });
 
-// change server name to "Columbugs" on May 1st
-cron.schedule("0 0 1 5 *", function() {
-    client.guilds.fetch('555243907534028830').then(guild => guild.setName('Columbugs'));
+// change server name to "Columbugs" on May 8th
+cron.schedule("0 0 8 5 *", function() {
+    client.guilds.cache.get('555243907534028830').setName('Columbugs');
 });
 
 // feature removed by request
