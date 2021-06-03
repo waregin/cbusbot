@@ -19,6 +19,25 @@ async function searchForGif(searchTerm, chan) {
     chan.send(chosenGif);
 }
 
+async function checkAddAfterDarkRole(member) {
+    var lvl10RoleID = '715997180476784721';
+    var agedRoleID = '842861994449436673';
+    var afterDarkRoleID = '850121444032643092';
+
+    var roleCache = member.roles.cache;
+
+    if (roleCache.has(lvl10RoleID)) {
+        console.log(member.displayName + " has lvl10 role");
+        if (roleCache.has(agedRoleID)) {
+            console.log(member.displayName + " has aged role");
+            if (!roleCache.has(afterDarkRoleID)) {
+                console.log("Adding after dark role to " + member.displayName);
+                member.roles.add(roleCache.get(afterDarkRoleID));
+            }
+        }
+    }
+}
+
 //client.on('debug', console.log);
 
 client.login(process.env.DISCORD_TOKEN);
@@ -104,26 +123,31 @@ client.on('message', msg => {
 
 // every hour, check for members who have both the lvl10 and 18+ roles and ensure they have the after dark role
 cron.schedule("0 * * * *", function() {
-    var rolesCache = client.guilds.cache.get('555243907534028830').roles.cache;
-    var lvl10RoleMembers = rolesCache.get('715997180476784721').members;
-    console.log("lvl10RoleMembers:");
-    lvl10RoleMembers.each(member => console.log(member.username));
-    var agedRoleMembers = rolesCache.get('842861994449436673').members;
-    console.log("agedRoleMembers:");
-    agedRoleMembers.each(member => console.log(member.username));
-    var afterDarkRole = rolesCache.get('850121444032643092');
-    var afterDarkRoleMembers = afterDarkRole.members;
-    console.log("afterDarkRoleMembers:");
-    afterDarkRoleMembers.each(member => console.log(member.username));
+    client.guilds.fetch('555243907534028830').then(guild => guild.members.fetch()
+        .then(members => members.each(member => checkAddAfterDarkRole(member))));
 
-    var eligibleMembers = lvl10RoleMembers.intersect(agedRoleMembers);
-    console.log("eligibleMembers:");
-    eligibleMembers.each(member => console.log(member.username));
-    var grantToMembers = eligibleMembers.difference(afterDarkRole.members);
-    console.log("grantToMembers:");
-    grantToMembers.each(member => console.log(member.username));
-
-    grantToMembers.each(member => member.roles.add(afterDarkRole));
+//    var lvl10RoleMembers;
+//    roleManager.fetch('715997180476784721').then(role => lvl10RoleMembers = role.members);
+//    console.log("lvl10RoleMembers:");
+//    lvl10RoleMembers.each(member => console.log(member.displayName));
+//    var agedRoleMembers;
+//    roleManager.fetch('842861994449436673').then(role => agedRoleMembers = role.members);
+//    console.log("agedRoleMembers:");
+//    agedRoleMembers.each(member => console.log(member.displayName));
+//    var afterDarkRole;
+//    roleManager.fetch('850121444032643092').then(role => afterDarkRole = role);
+//    var afterDarkRoleMembers = afterDarkRole.members;
+//    console.log("afterDarkRoleMembers:");
+//    afterDarkRoleMembers.each(member => console.log(member.displayName));
+//
+//    var eligibleMembers = lvl10RoleMembers.intersect(agedRoleMembers);
+//    console.log("eligibleMembers:");
+//    eligibleMembers.each(member => console.log(member.displayName));
+//    var grantToMembers = eligibleMembers.difference(afterDarkRole.members);
+//    console.log("grantToMembers:");
+//    grantToMembers.each(member => console.log(member.displayName));
+//
+//    grantToMembers.each(member => member.roles.add(afterDarkRole));
 });
 
 // post siren gif every Wednesday at noon
