@@ -103,6 +103,19 @@ client.on('message', msg => {
     }
 });
 
+// every hour, check for members who have both the lvl10 and 18+ roles and ensure they have the after dark role
+cron.schedule("0 * * * *", function() {
+    var rolesCache = client.guilds.cache.get('555243907534028830').roles.cache;
+    var lvl10RoleMembers = rolesCache.get('715997180476784721').members;
+    var agedRoleMembers = rolesCache.get('842861994449436673').members;
+    var afterDarkRole = rolesCache.get('850121444032643092');
+
+    var eligibleMembers = lvl10RoleMembers.intersect(agedRoleMembers);
+    var grantToMembers = eligibleMembers.difference(afterDarkRole.members);
+
+    grantToMembers.each(member => member.roles.add(afterDarkRole));
+});
+
 // post siren gif every Wednesday at noon
 cron.schedule("0 12 * * WED", function() {
     var searchWords = ["woooo", "siren", "awoo"];
