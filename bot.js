@@ -98,7 +98,6 @@ client.on('message', msg => {
   // replies to messages from kiwi (or me) containing "I would die for " with euphie's meme
     if (msg.member != null && (msg.member.id === '155457021150232576' || msg.member.id === '325030773054767133')
         && new RegExp("\\bi would die for\\b").test(msg.content.toLowerCase())) {
-      console.log("Inside die for function");
       msg.channel.send('', {files: ["kiwi.png"]});
     }
 });
@@ -107,11 +106,22 @@ client.on('message', msg => {
 cron.schedule("0 * * * *", function() {
     var rolesCache = client.guilds.cache.get('555243907534028830').roles.cache;
     var lvl10RoleMembers = rolesCache.get('715997180476784721').members;
+    console.log("lvl10RoleMembers:");
+    lvl10RoleMembers.each(member => console.log(member.username));
     var agedRoleMembers = rolesCache.get('842861994449436673').members;
+    console.log("agedRoleMembers:");
+    agedRoleMembers.each(member => console.log(member.username));
     var afterDarkRole = rolesCache.get('850121444032643092');
+    var afterDarkRoleMembers = afterDarkRole.members;
+    console.log("afterDarkRoleMembers:");
+    afterDarkRoleMembers.each(member => console.log(member.username));
 
     var eligibleMembers = lvl10RoleMembers.intersect(agedRoleMembers);
+    console.log("eligibleMembers:");
+    eligibleMembers.each(member => console.log(member.username));
     var grantToMembers = eligibleMembers.difference(afterDarkRole.members);
+    console.log("grantToMembers:");
+    grantToMembers.each(member => console.log(member.username));
 
     grantToMembers.each(member => member.roles.add(afterDarkRole));
 });
