@@ -32,7 +32,7 @@ async function checkAddAfterDarkRole(member) {
 
     var roleCache = member.roles.cache;
 
-    if (roleCache.hasAll(lvl10RoleID, agedRoleID) && !roleCache.has(afterDarkRoleID)) {
+    if (roleCache.has(lvl10RoleID) && roleCache.has(agedRoleID) && !roleCache.has(afterDarkRoleID)) {
         member.roles.add(afterDarkRole);
     }
 }
