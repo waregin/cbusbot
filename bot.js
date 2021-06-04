@@ -122,9 +122,9 @@ client.on('message', msg => {
 });
 
 // every hour, check for members who have both the lvl10 and 18+ roles and ensure they have the after dark role
-cron.schedule("0 * * * *", function() {
-    client.guilds.fetch('555243907534028830').then(guild => guild.members.fetch()
-        .then(members => members.each(member => checkAddAfterDarkRole(member))));
+cron.schedule("10 * * * *", function() {
+    client.guilds.cache.get('555243907534028830').members.fetch()
+        .then(members => members.each(member => checkAddAfterDarkRole(member)));
 
 //    var lvl10RoleMembers;
 //    roleManager.fetch('715997180476784721').then(role => lvl10RoleMembers = role.members);
