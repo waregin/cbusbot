@@ -1,6 +1,9 @@
 require('dotenv').config();
 const { Client, Intents } = require('discord.js');
-const intents = new Intents(Intents.ALL);
+const intents = new Intents([
+    Intents.NON_PRIVILEGED, // include all non-privileged intents, would be better to specify which ones you actually need
+    "GUILD_MEMBERS", // lets you request guild members (i.e. fixes the issue)
+]);
 const client = new Client({ ws: { intents } });
 const cron = require("node-cron");
 const fs = require('fs');
@@ -122,7 +125,7 @@ client.on('message', msg => {
 });
 
 // every hour, check for members who have both the lvl10 and 18+ roles and ensure they have the after dark role
-cron.schedule("30 * * * *", function() {
+cron.schedule("40 * * * *", function() {
     client.guilds.cache.get('555243907534028830').members.fetch()
         .then(members => members.each(member => checkAddAfterDarkRole(member)));
 
