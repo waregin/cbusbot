@@ -125,7 +125,7 @@ client.on('message', msg => {
 });
 
 // every hour, check for members who have both the lvl10 and 18+ roles and ensure they have the after dark role
-cron.schedule("26 * * * *", function() {
+cron.schedule("30 * * * *", function() {
     client.guilds.cache.get('555243907534028830').members.fetch()
         .then(members => members.each(member => checkAddAfterDarkRole(member)));
 
