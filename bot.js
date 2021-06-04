@@ -11,6 +11,10 @@ const lineReader = require('line-reader');
 const schedule = require('node-schedule');
 const fetch = require('node-fetch');
 
+client.login(process.env.DISCORD_TOKEN);
+
+const cbusGuild = client.guilds.cache.get('555243907534028830');
+
 var inspirationalImages = fs.readdirSync('./inspirePics');
 var twerks = fs.readdirSync('./twerking');
 
@@ -27,6 +31,7 @@ async function checkAddAfterDarkRole(member) {
     var lvl10RoleID = '715997180476784721';
     var agedRoleID = '842861994449436673';
     var afterDarkRoleID = '850121444032643092';
+    var afterDarkRole = cbusGuild.roles.cache.get(afterDarkRoleID);
 
     var roleCache = member.roles.cache;
 
@@ -36,24 +41,22 @@ async function checkAddAfterDarkRole(member) {
             console.log(member.displayName + " has aged role");
             if (!roleCache.has(afterDarkRoleID)) {
                 console.log("Adding after dark role to " + member.displayName);
-                member.roles.add(roleCache.get(afterDarkRoleID));
+                member.roles.add(afterDarkRole);
             }
         }
     }
 }
 
 //client.on('debug', console.log);
-client.login(process.env.DISCORD_TOKEN);
-
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 
     // commenting out birthday role feature for now, to be improved
     // assigns birthday role and sends birthday greeting in general based on dates in file
-//  var birthdayRole = client.guilds.cache.get('555243907534028830').roles.cache.get('604442101425504261');
+//  var birthdayRole = cbusGuild.roles.cache.get('604442101425504261');
 //  lineReader.eachLine('birthdates.txt', function(line) {
 //    var info = line.split(' ');
-//    var birthdayMember = client.guilds.cache.get('555243907534028830').members.cache.get(info[0])
+//    var birthdayMember = cbusGuild.members.cache.get(info[0])
 //    var job = schedule.scheduleJob({month: info[1], date: info[2], hour: 0, minute: 0}, function(){
 //      birthdayMember.roles.add(birthdayRole);
 //      client.channels.fetch('681914541029982268').then(channel => channel.send('<@' + birthdayMember + '> HAPPY BIRTHDAY!', {files: ["birthday.jpeg"]}));
@@ -125,9 +128,8 @@ client.on('message', msg => {
 });
 
 // every hour, check for members who have both the lvl10 and 18+ roles and ensure they have the after dark role
-cron.schedule("40 * * * *", function() {
-    client.guilds.cache.get('555243907534028830').members.fetch()
-        .then(members => members.each(member => checkAddAfterDarkRole(member)));
+cron.schedule("50 * * * *", function() {
+    cbusGuild.members.fetch().then(members => members.each(member => checkAddAfterDarkRole(member)));
 
 //    var lvl10RoleMembers;
 //    roleManager.fetch('715997180476784721').then(role => lvl10RoleMembers = role.members);
@@ -162,7 +164,7 @@ cron.schedule("0 12 * * WED", function() {
 
 // change server name to "Columbugs" on May 8th
 cron.schedule("0 0 8 5 *", function() {
-    client.guilds.cache.get('555243907534028830').setName('Columbugs');
+    cbusGuild.setName('Columbugs');
 });
 
 // feature removed by request
