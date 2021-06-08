@@ -59,7 +59,7 @@ client.on('ready', () => {
   //      birthdayMember.roles.remove(birthdayRole);
   //    });
   //    //console.log(revertJob.nextInvocation());
-  //  });
+  //  }); 178845106873303040
 });
 
 client.on('message', msg => {
@@ -76,6 +76,9 @@ client.on('message', msg => {
     } else if (msg.member != null && msg.member.id === '325030773054767133') {
       // ... from me with "Your wish is my command"
       msg.reply('Your wish is my command');
+    } else if (msg.member != null && msg.member.id === '178845106873303040') {
+      // ... from euphie with ""
+      msg.reply('Yes, your highness :rolling_eyes:');
     } else {
       // ... with "Greetings fleshbags!" as default
       msg.reply('Greetings fleshbags!');
