@@ -114,8 +114,8 @@ cron.schedule("0 12 * * WED", function() {
     client.channels.fetch(generalChannelID).then(channel => searchForGif(searchWords[chosen], channel));
 });
 
-// change server name to "Columbugs" on May 8th
-cron.schedule("0 0 8 5 *", function() {
+// change server name to "Columbugs" on May 1st
+cron.schedule("0 0 1 5 *", function() {
     client.guilds.cache.get(cbusGuildID).setName('Columbugs');
 });
 
