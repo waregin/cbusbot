@@ -14,6 +14,7 @@ const cbusGuildID = '555243907534028830';
 
 var inspirationalImages = fs.readdirSync('./inspirePics');
 var twerks = fs.readdirSync('./twerking');
+var generalChannelID = '766529200113975327';
 
 async function searchForGif(searchTerm, chan) {
     var url = 'https://g.tenor.com/v1/search?q=' + searchTerm + '&key=' + process.env.TENORKEY + '&limit=25';
@@ -22,19 +23,6 @@ async function searchForGif(searchTerm, chan) {
     var chosen = Math.floor(Math.random() * json.results.length);
     var chosenGif = json.results[chosen].url;
     chan.send(chosenGif);
-}
-
-async function checkAddAfterDarkRole(member) {
-    var lvl10RoleID = '715997180476784721';
-    var agedRoleID = '842861994449436673';
-    var afterDarkRoleID = '850121444032643092';
-    var afterDarkRole = client.guilds.cache.get(cbusGuildID).roles.cache.get(afterDarkRoleID);
-
-    var roleCache = member.roles.cache;
-
-    if (roleCache.has(lvl10RoleID) && roleCache.has(agedRoleID) && !roleCache.has(afterDarkRoleID)) {
-        member.roles.add(afterDarkRole);
-    }
 }
 
 //client.on('debug', console.log);
@@ -84,7 +72,7 @@ client.on('message', msg => {
   // replies to messages containing "vore" with "YOU RUINED IT!" and puts the vore image in general
   if (new RegExp("\\bvore\\b").test(msg.content.toLowerCase())) {
     msg.reply('YOU RUINED IT!');
-    client.channels.fetch('766529200113975327').then(channel => channel.send('<@' + msg.member + '> reset the count', {files: ["vore.png"]}));
+    client.channels.fetch(generalChannelID).then(channel => channel.send('<@' + msg.member + '> reset the count', {files: ["vore.png"]}));
   }
   // replies to "she bite" with "SHE NO BITE!!"
   if (new RegExp("\\bshe bite\\b").test(msg.content.toLowerCase())
@@ -119,16 +107,11 @@ client.on('message', msg => {
     }
 });
 
-// every hour, check for members who have both the lvl10 and 18+ roles and ensure they have the after dark role
-cron.schedule("0 * * * *", function() {
-    client.guilds.cache.get(cbusGuildID).members.fetch().then(members => members.each(member => checkAddAfterDarkRole(member)));
-});
-
 // post siren gif every Wednesday at noon
 cron.schedule("0 12 * * WED", function() {
     var searchWords = ["woooo", "siren", "awoo"];
     var chosen = Math.floor(Math.random() * searchWords.length);
-    client.channels.fetch('766529200113975327').then(channel => searchForGif(searchWords[chosen], channel));
+    client.channels.fetch(generalChannelID).then(channel => searchForGif(searchWords[chosen], channel));
 });
 
 // change server name to "Columbugs" on May 8th
