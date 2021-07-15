@@ -14,6 +14,7 @@ const cbusGuildID = '555243907534028830';
 
 var inspirationalImages = fs.readdirSync('./inspirePics');
 var twerks = fs.readdirSync('./twerking');
+var generalChannelID = '766529200113975327';
 
 async function searchForGif(searchTerm, chan) {
   var url = 'https://g.tenor.com/v1/search?q=' + searchTerm + '&key=' + process.env.TENORKEY + '&limit=25';
