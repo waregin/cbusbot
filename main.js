@@ -1,10 +1,6 @@
 require('dotenv').config();
-const { Client, Intents } = require('discord.js');
-const intents = new Intents([
-    Intents.NON_PRIVILEGED, // include all non-privileged intents, would be better to specify which ones you actually need
-    "GUILD_MEMBERS", // lets you request guild members (i.e. fixes the issue)
-]);
-const client = new Client({ ws: { intents } });
+const { Client, GatewayIntentBits } = require('discord.js');
+const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers]});
 const cron = require("node-cron");
 const fs = require('fs');
 const lineReader = require('line-reader');
