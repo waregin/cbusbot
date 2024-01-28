@@ -21,7 +21,7 @@ npm version expected: 6.14.6
 # cbusbot
 ```
 run command in linux terminal:
-node bot.js
+node main.js
 
 // makes git store credentials
 git config --global credential.helper store
@@ -35,9 +35,9 @@ git commit -am "added birthday function for hot dog"
 git push
 
 // on bot server, pull changes, restart bot
-pm2 stop bot.js
+pm2 stop main.js
 git pull
-pm2 start bot.js
+pm2 start main.js
 
 // to see logs
 pm2 logs
