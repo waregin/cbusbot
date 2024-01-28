@@ -1,4 +1,4 @@
-.project
-.idea
-node_modules
+/.project
+/.idea
+/node_modules
 .env
