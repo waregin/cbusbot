@@ -99,10 +99,24 @@ client.on('messageCreate', msg => {
     searchForGif("twerking", msg.channel);
   }
   // replies to messages from kiwi (or me) containing "I would die for " with euphie's meme
-    if (msg.member != null && (msg.member.id === '155457021150232576' || msg.member.id === '325030773054767133')
-        && new RegExp("\\bi would die for\\b").test(msg.content.toLowerCase())) {
-      msg.channel.send({files: ["kiwi.png"]});
-    }
+  if (msg.member != null && (msg.member.id === '155457021150232576' || msg.member.id === '325030773054767133')
+      && new RegExp("\\bi would die for\\b").test(msg.content.toLowerCase())) {
+    msg.channel.send({files: ["kiwi.png"]});
+  }
+
+  // changes roles for mentioned member based on welcome command by Server Staff (role id: 718201268283375617)
+  // removes Unverified (id: 1215014250645291068) and adds Columbusites (id: 587495795897532437)
+  if (msg.content.startsWith("!welcome") && msg.member != null && msg.member.roles.cache.get('718201268283375617') != null
+      && msg.mentions != null && msg.mentions.members != null && msg.mentions.members.length > 0) {
+    msg.mentions.members.foreach((member) => {
+      if (member.roles.cache.get('1215014250645291068') != null) {
+        member.roles.remove('1215014250645291068');
+      }
+      if (member.roles.cache.get('587495795897532437') == null) {
+        member.roles.add('587495795897532437');
+      }
+    });
+  }
 });
 
 // post siren gif every Wednesday at noon
