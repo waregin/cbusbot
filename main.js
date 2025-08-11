@@ -3,8 +3,6 @@ import { Client, GatewayIntentBits } from "discord.js";
 import cron from "node-cron";
 import fs from "fs";
 import lineReader from "line-reader";
-import schedule from "node-schedule";
-import fetch from "node-fetch";
 
 dotenv.config();
 const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers]});
