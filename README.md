@@ -37,6 +37,7 @@ git push
 // on bot server, pull changes, restart bot
 pm2 stop main.js
 git pull
+cat main.js secretFeature.js > bot.js
 pm2 start main.js
 
 // to see logs
