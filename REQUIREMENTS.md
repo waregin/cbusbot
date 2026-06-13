@@ -1,6 +1,6 @@
 # cbusbot — Requirements & Context
 
-> Drop this file in the repo root as `REQUIREMENTS.md`. Goal: **rewrite in Python**.
+> Goal: **rewrite in Python**.
 
 ## Purpose
 Discord bot for the Cbus (Columbus) server Reggie helps run.
