@@ -1,8 +1,8 @@
 # cbusbot
 
 CbusBot is being rewritten in Python using [discord.py](https://discordpy.readthedocs.io/) 2.x.
-The legacy Node.js bot (`main.js`) is kept in the repo for reference while features are ported;
-see the GitHub issues for the porting backlog.
+The legacy Node.js bot (`main.js`, discord.js v14) is kept in the repo for reference while
+features are ported; see the GitHub issues for the porting backlog.
 
 ## Python bot
 
@@ -15,7 +15,7 @@ python3 -m venv .venv          # requires Python 3.11+
 cp .env.example .env           # then fill in DISCORD_TOKEN (and TENORKEY)
 ```
 
-Secrets live only in `.env` (never committed). Server/channel/user IDs and the
+Secrets live only in `.env` (never committed). Server/channel/user/role IDs and the
 list of enabled cogs live in `config.toml`.
 
 ### Run
@@ -43,4 +43,5 @@ cat main.js secretFeature.js > bot.js
 pm2 start bot.js      # pm2 logs to see logs
 ```
 
-The old bot expects the same `.env` file (DISCORD_TOKEN, TENORKEY) and Node 12+.
+The old bot expects the same `.env` file (DISCORD_TOKEN, TENORKEY).
+discord.js v14 requires a modern Node (16.11+).

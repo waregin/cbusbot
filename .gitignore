@@ -3,6 +3,7 @@
 
 # secrets
 .env
+install.sh
 
 # node
 node_modules/
