@@ -33,6 +33,42 @@ plain `ping` message) to confirm it's alive.
 1. Create `cbusbot/cogs/<name>.py` with a `Cog` subclass and an `async def setup(bot)`.
 2. Add `"<name>"` to `enabled` in `config.toml`.
 
+## Deployment
+
+The bot only makes outbound connections to Discord, so it runs fine on a
+LAN-only server — nothing needs to be exposed.
+
+### Docker (recommended)
+
+GitHub Actions builds `ghcr.io/waregin/cbusbot` on every push (`:latest` from
+master). The server only needs Docker — no Python at all:
+
+```bash
+mkdir -p /opt/cbusbot && cd /opt/cbusbot
+# copy docker-compose.yml here, and create .env with DISCORD_TOKEN / KLIPY_KEY
+docker compose pull && docker compose up -d
+docker compose logs -f          # watch it come up
+```
+
+Updating to a new build is the same `pull` + `up -d`. Rollback: point the
+compose file at a previous `sha-…` tag from the GHCR package page.
+
+### Native (systemd)
+
+Needs Python 3.11+ (openSUSE Leap 15.x: `sudo zypper install python312` —
+the default `python3` there is 3.6, which is too old):
+
+```bash
+cd /opt/cbusbot
+python3.12 -m venv .venv
+.venv/bin/pip install -e .
+cp .env.example .env            # fill in secrets
+sudo cp deploy/cbusbot.service /etc/systemd/system/
+sudo systemctl daemon-reload && sudo systemctl enable --now cbusbot
+```
+
+Updates: `git pull && sudo systemctl restart cbusbot`.
+
 ---
 
 ## Legacy Node.js bot (reference)
