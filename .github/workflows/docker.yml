@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - claude/discord-bot-python-rewrite-x3nffl
   workflow_dispatch:
 
 permissions:
