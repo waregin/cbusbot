@@ -5,10 +5,34 @@ id = 555243907534028830
 
 [channels]
 general = 766529200113975327
+food = 573026220833243137
 
 [users]
 owner = 325030773054767133
+kiwi = 155457021150232576
+
+[roles]
+staff = 718201268283375617
+unverified = 1215014250645291068
+columbusites = 587495795897532437
+
+# Scheduled server renames (checked daily at midnight).
+# Add more entries for monthly themes, e.g. month 2 -> "CoLOVEbus".
+[[renames]]
+month = 5
+day = 1
+name = "Columbugs"
 
 [cogs]
 # Cogs to load at startup. Add new feature cogs here as they are ported.
-enabled = ["ping"]
+enabled = [
+    "ping",
+    "mentions",
+    "vore",
+    "bites",
+    "food",
+    "compiling",
+    "die_for",
+    "welcome",
+    "rename",
+]
