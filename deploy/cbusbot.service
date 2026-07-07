@@ -1,0 +1,15 @@
+# Native (non-Docker) deployment: copy to /etc/systemd/system/cbusbot.service,
+# adjust paths, then: sudo systemctl daemon-reload && sudo systemctl enable --now cbusbot
+[Unit]
+Description=CbusBot Discord bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+WorkingDirectory=/opt/cbusbot
+ExecStart=/opt/cbusbot/.venv/bin/python -m cbusbot
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
