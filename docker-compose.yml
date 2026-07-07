@@ -1,0 +1,9 @@
+# On the server:
+#   1. put DISCORD_TOKEN / KLIPY_KEY in .env next to this file
+#   2. docker compose pull && docker compose up -d
+# Update to a new build: docker compose pull && docker compose up -d
+services:
+  cbusbot:
+    image: ghcr.io/waregin/cbusbot:latest
+    env_file: .env
+    restart: unless-stopped

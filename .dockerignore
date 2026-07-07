@@ -1,0 +1,13 @@
+.git
+.env
+.venv
+node_modules
+__pycache__
+*.egg-info
+main.js
+secretFeature.js
+package.json
+package-lock.json
+run.sh
+Dockerfile
+docker-compose.yml

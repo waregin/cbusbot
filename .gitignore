@@ -1,2 +1,17 @@
 /.project
 /.idea
+
+# secrets
+.env
+install.sh
+
+# node
+node_modules/
+bot.js
+
+# python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+dist/

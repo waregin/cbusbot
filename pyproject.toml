@@ -1,0 +1,16 @@
+[project]
+name = "cbusbot"
+version = "2.0.0"
+description = "CbusBot rewritten in Python (discord.py)"
+requires-python = ">=3.11"
+dependencies = [
+    "discord.py>=2.4",
+    "python-dotenv>=1.0",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["cbusbot*"]

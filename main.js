@@ -1,15 +1,11 @@
-require('dotenv').config();
-const { Client, Intents } = require('discord.js');
-const intents = new Intents([
-    Intents.NON_PRIVILEGED, // include all non-privileged intents, would be better to specify which ones you actually need
-    "GUILD_MEMBERS", // lets you request guild members (i.e. fixes the issue)
-]);
-const client = new Client({ ws: { intents } });
-const cron = require("node-cron");
-const fs = require('fs');
-const lineReader = require('line-reader');
-const schedule = require('node-schedule');
-const fetch = require('node-fetch');
+import dotenv from "dotenv";
+import { Client, GatewayIntentBits } from "discord.js";
+import cron from "node-cron";
+import fs from "fs";
+import lineReader from "line-reader";
+
+dotenv.config();
+const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers]});
 const cbusGuildID = '555243907534028830';
 
 var inspirationalImages = fs.readdirSync('./inspirePics');
@@ -50,7 +46,7 @@ client.on('ready', () => {
 //  });
 });
 
-client.on('message', msg => {
+client.on('messageCreate', msg => {
   // replies to "ping" with "pong"
   if (msg.content.toLowerCase() === 'ping') {
     msg.reply('pong');
@@ -60,7 +56,7 @@ client.on('message', msg => {
     if (new RegExp("\\binspire\\b").test(msg.content.toLowerCase())) {
       // ... containing "inspire" with image from inspire folder
       var chosen = inspirationalImages[Math.floor(Math.random() * inspirationalImages.length)];
-      msg.channel.send('', {files: ['inspirePics/' + chosen]});
+      msg.channel.send({files: ['inspirePics/' + chosen]});
     } else if (msg.member != null && msg.member.id === '325030773054767133') {
       // ... from me with "Your wish is my command"
       msg.reply('Your wish is my command');
@@ -72,7 +68,7 @@ client.on('message', msg => {
   // replies to messages containing "vore" with "YOU RUINED IT!" and puts the vore image in general
   if (new RegExp("\\bvore\\b").test(msg.content.toLowerCase())) {
     msg.reply('YOU RUINED IT!');
-    client.channels.fetch(generalChannelID).then(channel => channel.send('<@' + msg.member + '> reset the count', {files: ["vore.png"]}));
+    client.channels.fetch(generalChannelID).then(channel => channel.send({ content: '<@' + msg.member + '> reset the count', files: ["vore.png"]}));
   }
   // replies to "she bite" with "SHE NO BITE!!"
   if (new RegExp("\\bshe bite\\b").test(msg.content.toLowerCase())
@@ -84,14 +80,14 @@ client.on('message', msg => {
   if (!msg.mentions.everyone && msg.mentions.has('573026220833243137')) {
     var picking = new Date().getTime();
     if (picking % 2 == 1) {
-      msg.channel.send('', {files: ["food.png"]});
+      msg.channel.send({files: ["food.png"]});
     } else {
       msg.channel.send('Every channel is food channel');
     }
   }
   // replies to messages containing "compiling" with xkcd comic
   if (new RegExp("\\bcompiling\\b").test(msg.content.toLowerCase())) {
-    msg.channel.send('', {files: ["compiling.png"]});
+    msg.channel.send({files: ["compiling.png"]});
   }
   // replies to messages from elle (or me) containing "dance" with twerking gif
   // admin role id: 718201180815097896 birthday role id: 693811236218994788
@@ -101,10 +97,24 @@ client.on('message', msg => {
     searchForGif("twerking", msg.channel);
   }
   // replies to messages from kiwi (or me) containing "I would die for " with euphie's meme
-    if (msg.member != null && (msg.member.id === '155457021150232576' || msg.member.id === '325030773054767133')
-        && new RegExp("\\bi would die for\\b").test(msg.content.toLowerCase())) {
-      msg.channel.send('', {files: ["kiwi.png"]});
-    }
+  if (msg.member != null && (msg.member.id === '155457021150232576' || msg.member.id === '325030773054767133')
+      && new RegExp("\\bi would die for\\b").test(msg.content.toLowerCase())) {
+    msg.channel.send({files: ["kiwi.png"]});
+  }
+
+  // changes roles for mentioned member based on welcome command by Server Staff (role id: 718201268283375617)
+  // removes Unverified (id: 1215014250645291068) and adds Columbusites (id: 587495795897532437)
+  if (msg.content.startsWith("!welcome") && msg.member != null && msg.member.roles.cache.get('718201268283375617') != null
+      && msg.mentions != null && msg.mentions.members != null && msg.mentions.members.length > 0) {
+    msg.mentions.members.foreach((member) => {
+      if (member.roles.cache.get('1215014250645291068') != null) {
+        member.roles.remove('1215014250645291068');
+      }
+      if (member.roles.cache.get('587495795897532437') == null) {
+        member.roles.add('587495795897532437');
+      }
+    });
+  }
 });
 
 // post siren gif every Wednesday at noon
@@ -123,5 +133,5 @@ cron.schedule("0 0 1 5 *", function() {
 // every morning at 8, put image from inspirePics folder into support channel
 //cron.schedule("0 8 * * *", function() {
 //  var chosen = inspirationalImages[Math.floor(Math.random() * inspirationalImages.length)];
-//  client.channels.fetch('630807691291525131').then(channel => channel.send('', {files: ['inspirePics/' + chosen]}));
+//  client.channels.fetch('630807691291525131').then(channel => channel.send({files: ['inspirePics/' + chosen]}));
 //});
