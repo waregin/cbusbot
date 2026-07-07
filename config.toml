@@ -10,8 +10,11 @@ food = 573026220833243137
 [users]
 owner = 325030773054767133
 kiwi = 155457021150232576
+elle = 533716168062664742
 
 [roles]
+admin = 718201180815097896
+birthday = 693811236218994788
 staff = 718201268283375617
 unverified = 1215014250645291068
 columbusites = 587495795897532437
@@ -35,4 +38,6 @@ enabled = [
     "die_for",
     "welcome",
     "rename",
+    "dance",
+    "siren",
 ]

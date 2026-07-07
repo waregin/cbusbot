@@ -11,7 +11,8 @@ from discord.ext import commands, tasks
 
 log = logging.getLogger(__name__)
 
-MIDNIGHT = datetime.time(hour=0, minute=0)
+# Server-local midnight — naive times in tasks.loop are treated as UTC.
+MIDNIGHT = datetime.time(hour=0, tzinfo=datetime.datetime.now().astimezone().tzinfo)
 
 
 class Rename(commands.Cog):
