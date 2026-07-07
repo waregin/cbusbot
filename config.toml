@@ -6,6 +6,7 @@ id = 555243907534028830
 [channels]
 general = 766529200113975327
 food = 573026220833243137
+admin = 718201857646002237
 
 [users]
 owner = 325030773054767133
@@ -18,6 +19,12 @@ birthday = 693811236218994788
 staff = 718201268283375617
 unverified = 1215014250645291068
 columbusites = 587495795897532437
+lvl10 = 715997180476784721
+lvl15 = 850385192769290241
+aged = 842861994449436673            # 18+
+after_dark = 850121444032643092
+caterpillar = 607696693760360450     # social caterpillar
+butterfly = 590030281352937489       # social butterfly
 
 # Scheduled server renames (checked daily at midnight).
 # Add more entries for monthly themes, e.g. month 2 -> "CoLOVEbus".
@@ -40,4 +47,6 @@ enabled = [
     "rename",
     "dance",
     "siren",
+    "after_dark",
+    "butterfly",
 ]

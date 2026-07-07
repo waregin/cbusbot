@@ -20,6 +20,7 @@ class Config:
     guild_id: int
     general_channel_id: int
     food_channel_id: int
+    admin_channel_id: int
     owner_id: int
     kiwi_id: int
     elle_id: int
@@ -28,6 +29,12 @@ class Config:
     staff_role_id: int
     unverified_role_id: int
     columbusites_role_id: int
+    lvl10_role_id: int
+    lvl15_role_id: int
+    aged_role_id: int
+    after_dark_role_id: int
+    caterpillar_role_id: int
+    butterfly_role_id: int
     renames: list[Rename] = field(default_factory=list)
     enabled_cogs: list[str] = field(default_factory=list)
 
@@ -39,6 +46,7 @@ def load_config(path: str | Path = ROOT / "config.toml") -> Config:
         guild_id=raw["guild"]["id"],
         general_channel_id=raw["channels"]["general"],
         food_channel_id=raw["channels"]["food"],
+        admin_channel_id=raw["channels"]["admin"],
         owner_id=raw["users"]["owner"],
         kiwi_id=raw["users"]["kiwi"],
         elle_id=raw["users"]["elle"],
@@ -47,6 +55,12 @@ def load_config(path: str | Path = ROOT / "config.toml") -> Config:
         staff_role_id=raw["roles"]["staff"],
         unverified_role_id=raw["roles"]["unverified"],
         columbusites_role_id=raw["roles"]["columbusites"],
+        lvl10_role_id=raw["roles"]["lvl10"],
+        lvl15_role_id=raw["roles"]["lvl15"],
+        aged_role_id=raw["roles"]["aged"],
+        after_dark_role_id=raw["roles"]["after_dark"],
+        caterpillar_role_id=raw["roles"]["caterpillar"],
+        butterfly_role_id=raw["roles"]["butterfly"],
         renames=[Rename(**r) for r in raw.get("renames", [])],
         enabled_cogs=raw["cogs"]["enabled"],
     )
