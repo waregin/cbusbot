@@ -1,0 +1,14 @@
+# CbusBot configuration. IDs and toggles live here; secrets live in .env only.
+
+[guild]
+id = 555243907534028830
+
+[channels]
+general = 766529200113975327
+
+[users]
+owner = 325030773054767133
+
+[cogs]
+# Cogs to load at startup. Add new feature cogs here as they are ported.
+enabled = ["ping"]

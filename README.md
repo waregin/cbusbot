@@ -1,44 +1,46 @@
-### Reference Steps for new project:
-```
-sudo apt-get install curl python-software-properties
-curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
-sudo apt-get install -y nodejs
-node -v
-npm -v
-
-npm init -y
-npm install --save discord.js dotenv
-
-make file called ".env" that contains one line
-DISCORD_TOKEN=[INSERT YOUR TOKEN HERE]
-
-make file called "bot.js"
-
-node version expected: 12.18.3
-npm version expected: 6.14.6
-```
-
 # cbusbot
+
+CbusBot is being rewritten in Python using [discord.py](https://discordpy.readthedocs.io/) 2.x.
+The legacy Node.js bot (`main.js`) is kept in the repo for reference while features are ported;
+see the GitHub issues for the porting backlog.
+
+## Python bot
+
+### Setup
+
+```bash
+python3 -m venv .venv          # requires Python 3.11+
+.venv/bin/pip install -e .
+
+cp .env.example .env           # then fill in DISCORD_TOKEN (and TENORKEY)
 ```
-run command in linux terminal:
-node bot.js
 
-// makes git store credentials
-git config --global credential.helper store
+Secrets live only in `.env` (never committed). Server/channel/user IDs and the
+list of enabled cogs live in `config.toml`.
 
-// clone command
-git clone https://github.com/warebec/cbusbot.git
+### Run
 
-// commit local changes
-git add .
-git commit -am "added birthday function for hot dog"
-git push
-
-// on bot server, pull changes, restart bot
-pm2 stop bot.js
-git pull
-pm2 start bot.js
-
-// to see logs
-pm2 logs
+```bash
+.venv/bin/python -m cbusbot
 ```
+
+On startup the bot loads every cog listed under `[cogs] enabled` in `config.toml`
+and syncs its slash commands to the home guild. Try `/ping` in Discord (or send a
+plain `ping` message) to confirm it's alive.
+
+### Adding a feature
+
+1. Create `cbusbot/cogs/<name>.py` with a `Cog` subclass and an `async def setup(bot)`.
+2. Add `"<name>"` to `enabled` in `config.toml`.
+
+---
+
+## Legacy Node.js bot (reference)
+
+```
+npm install
+cat main.js secretFeature.js > bot.js
+pm2 start bot.js      # pm2 logs to see logs
+```
+
+The old bot expects the same `.env` file (DISCORD_TOKEN, TENORKEY) and Node 12+.
