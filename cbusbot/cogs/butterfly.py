@@ -11,21 +11,25 @@ from discord.ext import commands, tasks
 log = logging.getLogger(__name__)
 
 MONDAY = 0
-AT_10PM = datetime.time(hour=22, tzinfo=datetime.datetime.now().astimezone().tzinfo)
+# Placeholder; replaced with the configured zone in __init__ before start.
+_PLACEHOLDER = datetime.time(hour=22, tzinfo=datetime.timezone.utc)
 HEADER = "The following members are level 15 but do not have access to the butterfly sanctuary:\n"
 
 
 class Butterfly(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.report.change_interval(time=datetime.time(hour=22, tzinfo=bot.config.tz))
         self.report.start()
 
     async def cog_unload(self) -> None:
         self.report.cancel()
 
-    @tasks.loop(time=AT_10PM)
+    @tasks.loop(time=_PLACEHOLDER)
     async def report(self) -> None:
-        if datetime.date.today().weekday() != MONDAY:
+        # Weekday in the configured zone: 10 PM Eastern Monday is already
+        # Tuesday in UTC, so the process-local date would skip every run.
+        if datetime.datetime.now(self.bot.config.tz).weekday() != MONDAY:
             return
         cfg = self.bot.config
         guild = self.bot.get_guild(cfg.guild_id)

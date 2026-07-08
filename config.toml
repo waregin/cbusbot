@@ -1,5 +1,10 @@
 # CbusBot configuration. IDs and toggles live here; secrets live in .env only.
 
+[schedule]
+# IANA zone for all scheduled features (siren, rename, butterfly). Explicit so
+# the bot behaves the same on the host and inside Docker (where "local" is UTC).
+timezone = "America/New_York"
+
 [guild]
 id = 555243907534028830
 

@@ -1,7 +1,7 @@
 """Scheduled server renames (e.g. "Columbugs" on May 1).
 
-Checks the [[renames]] table in config.toml once a day at midnight; add entries
-there for monthly themes.
+Checks the [[renames]] table in config.toml once a day at midnight in the
+configured [schedule] timezone; add entries there for monthly themes.
 """
 
 import datetime
@@ -11,21 +11,22 @@ from discord.ext import commands, tasks
 
 log = logging.getLogger(__name__)
 
-# Server-local midnight — naive times in tasks.loop are treated as UTC.
-MIDNIGHT = datetime.time(hour=0, tzinfo=datetime.datetime.now().astimezone().tzinfo)
+# Placeholder; replaced with the configured zone in __init__ before start.
+_PLACEHOLDER = datetime.time(hour=0, tzinfo=datetime.timezone.utc)
 
 
 class Rename(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.check_rename.change_interval(time=datetime.time(hour=0, tzinfo=bot.config.tz))
         self.check_rename.start()
 
     async def cog_unload(self) -> None:
         self.check_rename.cancel()
 
-    @tasks.loop(time=MIDNIGHT)
+    @tasks.loop(time=_PLACEHOLDER)
     async def check_rename(self) -> None:
-        today = datetime.date.today()
+        today = datetime.datetime.now(self.bot.config.tz)
         for entry in self.bot.config.renames:
             if (entry.month, entry.day) == (today.month, today.day):
                 guild = self.bot.get_guild(self.bot.config.guild_id)
