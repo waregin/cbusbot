@@ -13,7 +13,7 @@ COPY *.png *.jpeg *.jpg ./
 # resolves asset paths correctly.
 RUN pip install --no-cache-dir -e .
 
-RUN useradd --create-home bot
+RUN useradd --create-home bot && mkdir -p /app/data && chown bot /app/data
 USER bot
 
 # Secrets (DISCORD_TOKEN, KLIPY_KEY) come from the environment at run time —

@@ -8,6 +8,10 @@ from zoneinfo import ZoneInfo
 # Repo root — asset files (vore.png, inspirePics/, ...) live here.
 ROOT = Path(__file__).resolve().parents[1]
 
+# Mutable state (counters, etc). In Docker this is a mounted volume so state
+# survives image updates.
+DATA_DIR = ROOT / "data"
+
 
 @dataclass(frozen=True)
 class Rename:
