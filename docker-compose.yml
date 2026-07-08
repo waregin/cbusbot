@@ -7,3 +7,6 @@ services:
     image: ghcr.io/waregin/cbusbot:latest
     env_file: .env
     restart: unless-stopped
+    volumes:
+      # persistent state (vore counter, etc); survives image updates
+      - ./data:/app/data

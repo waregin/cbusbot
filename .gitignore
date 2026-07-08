@@ -5,6 +5,9 @@
 .env
 install.sh
 
+# runtime state
+data/
+
 # node
 node_modules/
 bot.js
